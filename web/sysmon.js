@@ -44,7 +44,7 @@ const CSS = `
   align-items: center;
   gap: 5px;
   height: 26px;
-  padding: 0 11px;
+  padding: 0 8px;
   border-radius: 999px;
   cursor: pointer;
   transition: background .15s;
@@ -64,7 +64,7 @@ const CSS = `
 .sysmon-u { font-size: .94em; font-weight: 400; opacity: .8; margin-left: 2px; }
 .sysmon-sep {
   width: 1px; height: 14px;
-  margin: 0 5px;
+  margin: 0 3px;
   background: currentColor; opacity: .16;
   flex: 0 0 auto;
 }
