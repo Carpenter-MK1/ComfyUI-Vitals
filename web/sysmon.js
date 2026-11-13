@@ -19,7 +19,9 @@ const CSS = `
   height: 100%;
   max-height: 40px;
   padding: 0 4px 0 2px;
-  font: 13px/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* 不写 font-family：继承顶栏容器的字体，跟旁边的按钮保持一致 */
+  font-size: 12.5px;
+  line-height: 1.15;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   color: var(--fg-color, #ddd);
@@ -40,7 +42,7 @@ const CSS = `
 .sysmon-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
   height: 26px;
   padding: 0 8px;
   border-radius: 999px;
@@ -49,14 +51,18 @@ const CSS = `
 }
 .sysmon-item:hover { background: rgba(127, 127, 127, .16); }
 .sysmon-dot {
-  width: 7px; height: 7px; border-radius: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
+  margin-right: 3px;
   background: var(--sysmon-dot, #5ac16b);
   flex: 0 0 auto;
 }
-.sysmon-k { opacity: .55; letter-spacing: .06em; }
-.sysmon-v { min-width: 34px; text-align: right; }
-.sysmon-t { opacity: .8; min-width: 30px; text-align: right; }
-.sysmon-t.none { opacity: .3; }
+.sysmon-k { opacity: .5; font-size: 11.5px; letter-spacing: .02em; }
+.sysmon-v { font-weight: 600; min-width: 30px; text-align: right; }
+/* 温度跟使用率拉开一点，两者是同一条目里的两组数据 */
+.sysmon-t { opacity: .7; margin-left: 5px; min-width: 24px; text-align: right; }
+.sysmon-t.none { opacity: .28; }
+/* 单位比数值小一号且更淡：℃ 这个字符本身是全角宽度，同字号会显大 */
+.sysmon-u { font-size: .76em; font-weight: 400; opacity: .72; margin-left: 1px; }
 .sysmon-sep {
   width: 1px; height: 14px;
   margin: 0 3px;
@@ -545,7 +551,7 @@ function paintBar() {
       cT.classList.add("none");
       cT.title = t("tempMissing");
     } else {
-      setText(cT, cpu.temp.toFixed(0) + "℃");
+      cT.innerHTML = cpu.temp.toFixed(0) + '<span class="sysmon-u">℃</span>';
       cT.classList.remove("none");
       cT.title = cpu.temp_src === "lhm" ? t("tempLhm") : t("tempWmi");
     }
@@ -557,7 +563,11 @@ function paintBar() {
   const gDot = $("[data-gpu-dot]", bar);
   if (gpu) {
     setText(gV, (gpu.util == null ? "—" : gpu.util + "%"));
-    setText(gT, gpu.temp == null ? "—" : gpu.temp + "℃");
+    if (gpu.temp == null) {
+      setText(gT, "—");
+    } else {
+      gT.innerHTML = gpu.temp + '<span class="sysmon-u">℃</span>';
+    }
     gDot.style.background = loadColor(gpu.util);
   } else {
     setText(gV, "—");
@@ -662,9 +672,10 @@ function dialogBody() {
 
   let html = `<div class="sysmon-body">`;
   html += row(t("rCpu"), `${cpu.percent ?? "—"}% · ${cpu.freq ? cpu.freq + " MHz" : "—"}`
-    + (cpu.temp == null ? "" : ` · ${cpu.temp}℃`));
+    + (cpu.temp == null ? "" : ` · ${cpu.temp}<span class="sysmon-u">℃</span>`));
   html += row(t("rGpu"), gpu
-    ? `${gpu.util ?? "—"}% · ${gpu.temp ?? "—"}℃ · ${gpu.mem_used ?? "—"}/${gpu.mem_total ?? "—"} MiB`
+    ? `${gpu.util ?? "—"}% · ${gpu.temp ?? "—"}<span class="sysmon-u">℃</span>`
+      + ` · ${gpu.mem_used ?? "—"}/${gpu.mem_total ?? "—"} MiB`
     : t("noNvidia"));
   html += row(t("rVram"), gpu
     ? `${gpu.mem_total ? Math.round(gpu.mem_used / gpu.mem_total * 100) : "—"}% · ${gpu.power ?? "—"} W`
