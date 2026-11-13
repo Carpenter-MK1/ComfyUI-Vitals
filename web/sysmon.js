@@ -61,8 +61,8 @@ const CSS = `
 /* 温度跟使用率拉开一点，两者是同一条目里的两组数据 */
 .sysmon-t { opacity: .7; margin-left: 5px; min-width: 24px; text-align: right; }
 .sysmon-t.none { opacity: .28; }
-/* 单位比数值小一号且更淡：℃ 这个字符本身是全角宽度，同字号会显大 */
-.sysmon-u { font-size: .76em; font-weight: 400; opacity: .72; margin-left: 1px; }
+/* 单位比数值小一号：℃ 这个字符本身是全角宽度，同字号会显大，太小又糊 */
+.sysmon-u { font-size: .88em; font-weight: 400; opacity: .8; margin-left: 1px; }
 .sysmon-sep {
   width: 1px; height: 14px;
   margin: 0 3px;
