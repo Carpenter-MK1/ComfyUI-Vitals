@@ -52,10 +52,16 @@ When LibreHardwareMonitor is not running, the plugin falls back to the `root/Lib
 
 To start LibreHardwareMonitor at logon with administrator rights:
 
-1. Edit line 6 of `setup_lhm_task.ps1` and point `$exe` at your local installation
-2. Right-click `enable_lhm_autostart.cmd` and choose "Run as administrator". Windows shows one UAC prompt.
+1. Right-click `enable_lhm_autostart.cmd` and choose "Run as administrator". Windows shows one UAC prompt.
+2. The script looks for `LibreHardwareMonitor.exe` in this order: the `-ExePath` argument, the `LHM_EXE` or `LHM_PATH` environment variable, the running instance, an already registered task with the same name, common install directories.
 
-The script registers a logon task that runs with highest privileges. The result is written to `setup_lhm_task.log` next to the script.
+If the executable lives somewhere unusual, pass the path:
+
+```
+enable_lhm_autostart.cmd "D:\Tools\LibreHardwareMonitor\LibreHardwareMonitor.exe"
+```
+
+The script registers a logon task that runs with highest privileges and writes the executable it used to `setup_lhm_task.log` next to the script.
 
 ## HTTP API
 

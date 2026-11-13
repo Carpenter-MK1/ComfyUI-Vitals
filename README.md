@@ -52,10 +52,16 @@ LHM 未运行时，插件退到 `root/LibreHardwareMonitor` WMI 命名空间读�
 
 如需登录后自动以管理员身份启动 LHM：
 
-1. 编辑 `setup_lhm_task.ps1` 第 6 行，把 `$exe` 改成本机 LHM 的实际路径
-2. 右键 `enable_lhm_autostart.cmd`，选择「以管理员身份运行」，只弹一次 UAC
+1. 右键 `enable_lhm_autostart.cmd`，选择「以管理员身份运行」，只弹一次 UAC
+2. 脚本按以下顺序查找 `LibreHardwareMonitor.exe`：`-ExePath` 参数、`LHM_EXE` 或 `LHM_PATH` 环境变量、正在运行的 LHM 进程、已注册的同名计划任务、常见安装目录
 
-脚本注册一个登录时触发、以最高权限运行的计划任务。执行结果写入同目录的 `setup_lhm_task.log`。
+安装在非常规位置时，把路径作为参数传入：
+
+```
+enable_lhm_autostart.cmd "D:\Tools\LibreHardwareMonitor\LibreHardwareMonitor.exe"
+```
+
+脚本注册一个登录时触发、以最高权限运行的计划任务，实际使用的 exe 路径写入同目录的 `setup_lhm_task.log`。
 
 ## 接口
 
