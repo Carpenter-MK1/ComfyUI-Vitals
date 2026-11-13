@@ -42,7 +42,7 @@ const CSS = `
 .sysmon-item {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
   height: 26px;
   padding: 0 11px;
   border-radius: 999px;
@@ -52,17 +52,16 @@ const CSS = `
 .sysmon-item:hover { background: rgba(127, 127, 127, .16); }
 .sysmon-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  margin-right: 3px;
   background: var(--sysmon-dot, #5ac16b);
   flex: 0 0 auto;
 }
 .sysmon-k { opacity: .5; font-size: 11.5px; letter-spacing: .02em; }
 .sysmon-v { font-weight: 600; min-width: 30px; text-align: right; }
-/* 温度跟使用率拉开一点，两者是同一条目里的两组数据 */
-.sysmon-t { opacity: .7; margin-left: 9px; min-width: 24px; text-align: right; }
+/* 温度与使用率之间就是条目的 gap，不再额外加，保持 5px */
+.sysmon-t { opacity: .7; min-width: 24px; text-align: right; }
 .sysmon-t.none { opacity: .28; }
 /* 单位比数值小一号：℃ 这个字符本身是全角宽度，同字号会显大，太小又糊 */
-.sysmon-u { font-size: .88em; font-weight: 400; opacity: .8; margin-left: 2px; }
+.sysmon-u { font-size: .94em; font-weight: 400; opacity: .8; margin-left: 2px; }
 .sysmon-sep {
   width: 1px; height: 14px;
   margin: 0 5px;
